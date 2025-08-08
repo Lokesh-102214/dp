@@ -1,2 +1,2 @@
 # dp
- solution for Parkinson's disease .
+Robotic glove for Parkinson's disease .
