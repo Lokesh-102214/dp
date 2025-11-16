@@ -13,7 +13,7 @@
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 #include "BluetoothSerial.h"
-#include <ArduinoFFT.h> // NEW: Added FFT Library
+#include <ArduinoFFT.h> //FFT Library
 
 // -------------------- FFT CONFIG --------------------
 #define SAMPLES 64             // Must be a power of 2
@@ -87,7 +87,7 @@ void smoothMoveServos();
 void gripOscillate();
 int applyServoDirection(int idx, int angle);
 void activateAllServos(bool active, float tremorLevel);
-TremorAnalysis computeTremorAnalysis();// NEW: FFT analysis returns struct
+TremorAnalysis computeTremorAnalysis();//FFT analysis returns struct
 void calibrateGyroBaseline();// Calibrates power threshold
 void handleBTCommands();// read and process BT commands
 void sendStatusTelemetry();
@@ -103,14 +103,14 @@ void setup() {
 
   // Initialize Bluetooth (device name: HandEKraft)
   if (!BT.begin("HandEKraft")) {
-    Serial.println("⚠️ BT start failed.");
+    Serial.println("BT start failed.");
   } else {
-    Serial.println("✅ Bluetooth started as 'HandEKraft'.");
+    Serial.println("Bluetooth started as 'HandEKraft'.");
   }
 
   // Initialize MPU6050
   if (!mpu.begin()) {
-    Serial.println("❌ MPU6050 not found. Check wiring!");
+    Serial.println(" MPU6050 not found. Check wiring!");
     while (1) { delay(1000); } // stop here
   }
   Serial.println("✅ MPU6050 initialized.");
@@ -120,7 +120,7 @@ void setup() {
   // Setup servos and move to rest angles
   for (int i = 0; i < 5; ++i) {
     SERVO_CHANNELS[i].attach(SERVO_PINS[i]);   // attach pin to servo object
-    int startAngle = applyServoDirection(i, restAngles[i]);   // ✅ use inversion
+    int startAngle = applyServoDirection(i, restAngles[i]);   //  use inversion
     SERVO_CHANNELS[i].write(startAngle); 
     currentAngle[i] = startAngle;
     targetAngle[i] = startAngle;   // move servo to rest position
@@ -178,7 +178,7 @@ void loop() {
     }
   } else {
     // manual mode
-    smoothMoveServos();// ✅ Smoothly move servos toward targetAngle
+    smoothMoveServos();//  Smoothly move servos toward targetAngle
     servosActive = true;
   }
 
@@ -314,7 +314,7 @@ void activateAllServos(bool active, float tremorLevel) {
       // compute target = pinchAngles[i] plus small oscillation
       int target = (int)round(pinchAngles[i] + osc);
       target = constrain(target, 60, 150); // tighter safety bounds while active
-      target = applyServoDirection(i, target);   // ✅ apply inversion
+      target = applyServoDirection(i, target);   // apply inversion
       SERVO_CHANNELS[i].write(target);
       currentAngle[i] = target;
       targetAngle[i] = target;
